@@ -25,9 +25,13 @@ pts = deque(maxlen=args["buffer"])
 vs = cv2.VideoCapture('sample.mp4')
 _, frame = vs.read()
 
-h, w, c = frame.shape
-time.sleep(2.0)
+# cv2.imwrite('janix', frame)
 
+
+h, w, c = frame.shape
+print(h, w)
+time.sleep(2.0)
+score = 0
 # keep looping
 while True:
     _, frame = vs.read()
@@ -45,11 +49,10 @@ while True:
     mask = cv2.inRange(hsv, low_yellow, high_yellow)
     mask = cv2.erode(mask, None, iterations=2)
     mask = cv2.dilate(mask, None, iterations=2)
-    cv2.imshow('video1',   mask)
+    cv2.imshow('video1', mask)
     # find contours in the mask and initialize the current
     # (x, y) center of the ball
-    cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
-                            cv2.CHAIN_APPROX_SIMPLE)
+    cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
     center = None
     # only proceed if at least one contour was found
@@ -61,12 +64,15 @@ while True:
         ((x, y), radius) = cv2.minEnclosingCircle(c)
         M = cv2.moments(c)
         center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+        print(center)
+        if center[0] ==  10:
+            score += 1
+            print(score)
         # only proceed if the radius meets a minimum size
         if radius > 2:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
-            cv2.circle(frame, (int(x), int(y)), int(radius),
-                       (0, 255, 255), 2)
+            cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
     # update the points queue
     pts.appendleft(center)
@@ -82,6 +88,9 @@ while True:
         thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
         cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
     # cv2.imshow('mask', mask)
+    start_point = (0, 90)
+    end_point = (0, 185)
+    frame = cv2.line(frame, start_point, end_point, (255, 0, 0), 9)
     cv2.imshow('video', frame)
     key = cv2.waitKey(1)
     if key == 27:
