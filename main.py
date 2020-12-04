@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-
+# Jani abhi hum zinda hein
 import argparse
 parser = argparse.ArgumentParser(description='This program shows how to use background subtraction methods provided by \
                                               OpenCV. You can process both videos and images.')
