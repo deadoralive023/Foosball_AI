@@ -6,10 +6,16 @@ cap = cv2.VideoCapture('/Users/uonliaquat/Downloads/sample.mp4')
 _, frame = cap.read()
 h, w, c = frame.shape
 
+table_params = [140, h - 140, 200, w - 340]
+rod_roi_params = [310, h - 310, 230, w - 370]
+
 while (1):
 
     _, frame = cap.read()
-    frame = frame[220: h - 220, 350: w - 500]
+    result = frame
+    result = result[table_params[0]: table_params[1], table_params[2]: table_params[3]]
+    # frame = frame[220: h - 220, 230: w - 370]
+    frame = frame[rod_roi_params[0]: rod_roi_params[1], rod_roi_params[2]:rod_roi_params[3]]
     blur = cv2.GaussianBlur(frame, (11, 11), 0)
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -43,17 +49,18 @@ while (1):
 
     kernel = np.ones((5, 5), np.uint8)
     img_erosion = cv2.erode(black_white_blue_red_mask, kernel, iterations=2)
-    img_dilation = cv2.dilate(black_white_blue_red_mask, kernel, iterations=2)
+    img_dilation = cv2.dilate(black_white_blue_red_mask, kernel, iterations=6)
 
     contours, hierarchy = cv2.findContours(black_white_blue_red_mask.copy(),
                                            cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     # cv2.drawContours(frame, contours, -1, (50, 255, 50), 2)
 
     for cnt in contours:
-        if cv2.contourArea(cnt) > 50:
+        if cv2.contourArea(cnt) > 300:
             # determine the most extreme points along the contour
             rect = cv2.boundingRect(cnt)
-            cv2.rectangle(frame, (rect[0], rect[1]), (rect[0] + rect[2], rect[1] + rect[3]), (0, 10, 0), 3)
+            cv2.rectangle(result, (rod_roi_params[2] - table_params[2] + rect[0], 0), (rod_roi_params[2] - table_params[2] + rect[0] + rect[2], result.shape[0]), (0, 10, 0), 3)
+            # cv2.rectangle(frame, (rect[0], rect[1]), (rect[0] + rect[2], rect[1] + rect[3]), (0, 10, 0), 3)
 
 
     # for cnt in contours:
@@ -83,6 +90,7 @@ while (1):
     # cv2.imshow('res red', red_res)
     # cv2.imshow('white_blue_red_mask', white_blue_red_mask)
     cv2.imshow('black_white_blue_red_mask', black_white_blue_red_mask)
+    cv2.imshow('result', result)
 
     k = cv2.waitKey(5) & 0xFF
     if k == 27:

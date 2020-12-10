@@ -24,12 +24,8 @@ pts = deque(maxlen=args["buffer"])
 
 vs = cv2.VideoCapture('sample.mp4')
 _, frame = vs.read()
-
-# cv2.imwrite('janix', frame)
-
-
 h, w, c = frame.shape
-print(h, w)
+
 time.sleep(2.0)
 score = 0
 # keep looping
