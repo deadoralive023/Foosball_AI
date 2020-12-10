@@ -36,7 +36,7 @@ while True:
     frame = cv2.resize(frame, (920, 460), interpolation=cv2.INTER_LINEAR)
     frame = frame[78 : h-390, 120 : w - 670]
 
-    # frame_arr = np.array(frame)
+    # frame_arr = np.array(frame)+
     blue = [0, 220, 0]
 
     # Get X and Y coordinates of all blue pixels
@@ -44,44 +44,44 @@ while True:
 
     print(X, Y)
 
-    # hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
 
-    # # Yellow Color
-    # low_yellow = np.array([20, 110, 140])
-    # high_yellow = np.array([60, 220, 220])
-    # yellow_mask = cv2.inRange(hsv_frame, low_yellow, high_yellow)
-    # yellow = cv2.bitwise_and(frame, frame, mask=yellow_mask)
-    #
-    # #Red Color
-    # low_red = np.array([150, 80, 0])
-    # high_red = np.array([255, 255, 255])
-    # red_mask = cv2.inRange(hsv_frame, low_red, high_red)
-    # red = cv2.bitwise_and(frame, frame, mask=red_mask)
-    #
-    # # Blue color
-    # low_blue = np.array([94, 80, 2])
-    # high_blue = np.array([126, 255, 255])
-    # blue_mask = cv2.inRange(hsv_frame, low_blue, high_blue)
-    # blue = cv2.bitwise_and(frame, frame, mask=blue_mask)
-    #
-    # # Green color
-    # low_green = np.array([25, 52, 72])
-    # high_green = np.array([102, 255, 255])
-    # green_mask = cv2.inRange(hsv_frame, low_green, high_green)
-    # green = cv2.bitwise_and(frame, frame, mask=green_mask)
-    #
-    # # Every color except white
-    # low = np.array([0, 42, 0])
-    # high = np.array([179, 255, 255])
-    # mask = cv2.inRange(hsv_frame, low, high)
-    # result = cv2.bitwise_and(frame, frame, mask=mask)
-    # cv2.imshow(FRAME_WINDOW, frame)
-    # cv2.imshow(P1_WINDOW, red)
-    # cv2.imshow(P2_WINDOW, blue)
-    # # cv2.imshow("Green", green)
-    # cv2.imshow(BALL_WINDOW, yellow)
-    # # cv2.imshow("Result", result)
+    # Yellow Color
+    low_yellow = np.array([20, 110, 140])
+    high_yellow = np.array([60, 220, 220])
+    yellow_mask = cv2.inRange(hsv_frame, low_yellow, high_yellow)
+    yellow = cv2.bitwise_and(frame, frame, mask=yellow_mask)
+
+    #Red Color
+    low_red = np.array([150, 80, 0])
+    high_red = np.array([255, 255, 255])
+    red_mask = cv2.inRange(hsv_frame, low_red, high_red)
+    red = cv2.bitwise_and(frame, frame, mask=red_mask)
+
+    # Blue color
+    low_blue = np.array([94, 80, 2])
+    high_blue = np.array([126, 255, 255])
+    blue_mask = cv2.inRange(hsv_frame, low_blue, high_blue)
+    blue = cv2.bitwise_and(frame, frame, mask=blue_mask)
+
+    # Green color
+    low_green = np.array([25, 52, 72])
+    high_green = np.array([102, 255, 255])
+    green_mask = cv2.inRange(hsv_frame, low_green, high_green)
+    green = cv2.bitwise_and(frame, frame, mask=green_mask)
+
+    # Every color except white
+    low = np.array([0, 42, 0])
+    high = np.array([179, 255, 255])
+    mask = cv2.inRange(hsv_frame, low, high)
+    result = cv2.bitwise_and(frame, frame, mask=mask)
+    cv2.imshow(FRAME_WINDOW, frame)
+    cv2.imshow(P1_WINDOW, red)
+    cv2.imshow(P2_WINDOW, blue)
+    # cv2.imshow("Green", green)
+    cv2.imshow(BALL_WINDOW, yellow)
+    # cv2.imshow("Result", result)
     key = cv2.waitKey(1)
     if key == 27:
         break
